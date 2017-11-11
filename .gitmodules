@@ -1,0 +1,3 @@
+[submodule "lib/chooser"]
+	path = lib/chooser
+	url = git://github.com/ahmed-masud/chooser.git

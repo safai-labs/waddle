@@ -1,0 +1,66 @@
+#!/bin/bash
+# 
+# --- BEGIN:HELP ---
+# Waddle  - An opinionated linux kernel development and testing system
+#
+# Copyright (C) 2017 Ahmed Masud <ahmed.masud@trustifier.com>
+# 
+# This software is distributed under GNU Public License version 2.0
+# All contributions and modifications may only be licensed under 
+# version GPL 2.0  and no other version.
+#
+#
+# waddle --help for usage
+# man 1 waddle for details 
+#
+# man waddle-license for detailed licensing information
+# 
+# --- END:HELP --- 
+
+
+# 
+# Waddle program
+#
+
+_libvarient=$(test "$(uname -m)" = "x86_64" &&  echo -n 64 || echo -n "") 
+prefix=${PREFIX:-/usr/local}
+libdir=${prefix}/lib${_libvarient}/waddle
+sharedir=${prefix}/share/waddle
+statedir=${prefix}/var/run
+
+alias choose=${libdir}/bin/choose
+
+PATH=${libdir}/bin:${sharedir}/bin:$PATH
+
+#
+# Environment variables and helper functions
+#
+
+pickdir() {
+		local k
+		for k ; do 
+				if [[ -d "${k}" ]] ; then
+						echo ${k}
+						return 0
+				fi
+		done
+		choose --exec 'mkdir -p "%1"' --one-from "$@" -- --default "$1"
+}
+
+#
+# 
+# Injected by the installation script, 
+# any changes here will be overwritten. If you want to make changes
+# that affect you, please do that in $HOME/.config/waddle/config
+# or ~/.waddle/config, you can generate one by running 
+# waddle user config --generate
+# 
+
+#
+# Do not modify stuff below this, unless you know what you're doing
+#
+
+
+workdir=$(pickdir ${WADDLE_WORKDIR} ${PWD}/.waddle ${HOME}/.waddle)
+
+# vim:ts=4
