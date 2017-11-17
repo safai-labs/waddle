@@ -1,3 +1,6 @@
 [submodule "lib/yada"]
 	path = lib/yada
 	url = git://github.com/ahmed-masud/yada.git
+[submodule "lib/wizard"]
+	path = lib/wizard
+	url = git://github.com/ahmed-masud/wizard.git
