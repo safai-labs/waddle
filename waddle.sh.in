@@ -28,7 +28,11 @@ libdir=${prefix}/lib${_libvarient}/waddle
 sharedir=${prefix}/share/waddle
 statedir=${prefix}/var/run
 
-alias choose=${libdir}/bin/choose
+# alias yada=${libdir}/bin/yada
+
+yada() {
+		sh ./lib/yada/yada.sh.in "$@"
+}
 
 PATH=${libdir}/bin:${sharedir}/bin:$PATH
 
@@ -44,7 +48,10 @@ pickdir() {
 						return 0
 				fi
 		done
-		choose --exec 'mkdir -p "%1"' --one-from "$@" -- --default "$1"
+
+		yada pick --default "$1" --one-from "$@" -- \
+		     exec -c "mkdir -p %1" -- \
+			 report "%1"
 }
 
 #
@@ -60,7 +67,8 @@ pickdir() {
 # Do not modify stuff below this, unless you know what you're doing
 #
 
+pickdir ${WADDLE_WORKDIR} ${PWD}/.waddle  ${HOME}/.waddle
 
-workdir=$(pickdir ${WADDLE_WORKDIR} ${PWD}/.waddle ${HOME}/.waddle)
+# workdir=$(pickdir ${WADDLE_WORKDIR} ${PWD}/.waddle ${HOME}/.waddle)
 
 # vim:ts=4
